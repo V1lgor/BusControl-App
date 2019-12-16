@@ -12,8 +12,12 @@ namespace BusControlApp
 {
     public partial class SelectActionPage : Form
     {
-        public SelectActionPage()
+        public int userRole;
+
+        public SelectActionPage(int userRole)
         {
+            this.userRole = userRole;
+
             InitializeComponent();
         }
 
@@ -26,13 +30,28 @@ namespace BusControlApp
         {
             MainPage mainPage = (MainPage)this.MdiParent;
 
-            mainPage.busesPage = new BusesPage();
+            mainPage.busesPage = new BusesPage(userRole);
 
             mainPage.busesPage.MdiParent = this.MdiParent;
 
             this.MdiParent.ClientSize = mainPage.busesPage.Size;
 
             mainPage.busesPage.Show();
+
+            this.Close();
+        }
+
+        private void ShowShiftTableBtn_Click(object sender, EventArgs e)
+        {
+            MainPage mainPage = (MainPage)this.MdiParent;
+
+            mainPage.shiftPage = new ShiftPage(userRole);
+
+            mainPage.shiftPage.MdiParent = this.MdiParent;
+
+            this.MdiParent.ClientSize = mainPage.shiftPage.Size;
+
+            mainPage.shiftPage.Show();
 
             this.Close();
         }

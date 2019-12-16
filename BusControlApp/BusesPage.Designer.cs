@@ -171,6 +171,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "BusesPage";
             this.Text = "BusesPage";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BusesPage_FormClosed);
             this.Load += new System.EventHandler(this.BusesPage_Load);
             this.Resize += new System.EventHandler(this.BusesPage_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.busesTable)).EndInit();

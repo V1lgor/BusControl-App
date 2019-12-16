@@ -13,6 +13,7 @@ namespace BusControlApp
     public partial class MainPage : Form
     {
         public BusesPage busesPage;  // Форма страницы просмотра автобусов
+        public ShiftPage shiftPage;
         public int userRole;         // Роль текущего пользователя
 
         // Конструктор формы
@@ -25,11 +26,13 @@ namespace BusControlApp
         // Обработка клика по пункту "Автобусы" главного меню
         private void busesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (this.ActiveMdiChild == busesPage) return;
+            this.ActiveMdiChild.Close();
             // Если форма уже открыта, выйти из процедуры
             if (busesPage != null) return;
 
             // Создаем новую форму страницы автобусов
-            busesPage = new BusesPage();
+            busesPage = new BusesPage(userRole);
 
             // Задаем этой форме родительскую, равную текущей форме (текущая форма - родитель новой формы)
             busesPage.MdiParent = this;
@@ -45,7 +48,7 @@ namespace BusControlApp
         private void MainPage_Load(object sender, EventArgs e)
         {
             // Создаем форму для выбора действия
-            SelectActionPage actionPage = new SelectActionPage();
+            SelectActionPage actionPage = new SelectActionPage(userRole);
 
             // Аналогично задаем ей родителя
             actionPage.MdiParent = this;
@@ -63,7 +66,26 @@ namespace BusControlApp
             Console.WriteLine($"Текущий ребенок: {this.ActiveMdiChild}");
 
             this.Height += 20;  // Чтобы форма вместилась полностью, необходимо увеличить контейнер на 20 пикселей
+        }
 
+        private void shiftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.ActiveMdiChild == shiftPage) return;
+            this.ActiveMdiChild.Close();
+            // Если форма уже открыта, выйти из процедуры
+            if (shiftPage != null) return;
+
+            // Создаем новую форму страницы автобусов
+            shiftPage = new ShiftPage(userRole);
+
+            // Задаем этой форме родительскую, равную текущей форме (текущая форма - родитель новой формы)
+            shiftPage.MdiParent = this;
+
+            // Меняем размер текущей формы на размер дочерней формы
+            this.ClientSize = shiftPage.Size;
+
+            // Показываем форму
+            shiftPage.Show();
         }
     }
 }

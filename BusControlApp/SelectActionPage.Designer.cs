@@ -30,6 +30,7 @@
         {
             this.welcomeText = new System.Windows.Forms.Label();
             this.showBusesBtn = new System.Windows.Forms.Button();
+            this.showShiftTableBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // welcomeText
@@ -51,12 +52,23 @@
             this.showBusesBtn.UseVisualStyleBackColor = true;
             this.showBusesBtn.Click += new System.EventHandler(this.showBusesBtn_Click);
             // 
+            // showShiftTableBtn
+            // 
+            this.showShiftTableBtn.Location = new System.Drawing.Point(16, 92);
+            this.showShiftTableBtn.Name = "showShiftTableBtn";
+            this.showShiftTableBtn.Size = new System.Drawing.Size(168, 23);
+            this.showShiftTableBtn.TabIndex = 2;
+            this.showShiftTableBtn.Text = "Смены";
+            this.showShiftTableBtn.UseVisualStyleBackColor = true;
+            this.showShiftTableBtn.Click += new System.EventHandler(this.ShowShiftTableBtn_Click);
+            // 
             // SelectActionPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(222, 117);
+            this.ClientSize = new System.Drawing.Size(222, 153);
             this.ControlBox = false;
+            this.Controls.Add(this.showShiftTableBtn);
             this.Controls.Add(this.showBusesBtn);
             this.Controls.Add(this.welcomeText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -72,5 +84,6 @@
 
         private System.Windows.Forms.Label welcomeText;
         private System.Windows.Forms.Button showBusesBtn;
+        private System.Windows.Forms.Button showShiftTableBtn;
     }
 }

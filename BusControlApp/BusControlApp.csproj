@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddShift.Designer.cs">
+      <DependentUpon>AddShift.cs</DependentUpon>
+    </Compile>
     <Compile Include="BusesPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +81,15 @@
     <Compile Include="SelectActionPage.Designer.cs">
       <DependentUpon>SelectActionPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShiftPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShiftPage.Designer.cs">
+      <DependentUpon>ShiftPage.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddShift.resx">
+      <DependentUpon>AddShift.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BusesPage.resx">
       <DependentUpon>BusesPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +110,9 @@
     </Compile>
     <EmbeddedResource Include="SelectActionPage.resx">
       <DependentUpon>SelectActionPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShiftPage.resx">
+      <DependentUpon>ShiftPage.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

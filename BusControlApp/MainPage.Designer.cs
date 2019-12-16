@@ -31,6 +31,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.busesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shiftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,7 +48,8 @@
             // tablesToolStripMenuItem
             // 
             this.tablesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.busesToolStripMenuItem});
+            this.busesToolStripMenuItem,
+            this.shiftToolStripMenuItem});
             this.tablesToolStripMenuItem.Name = "tablesToolStripMenuItem";
             this.tablesToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.tablesToolStripMenuItem.Text = "Таблицы";
@@ -58,6 +60,13 @@
             this.busesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.busesToolStripMenuItem.Text = "Автобусы";
             this.busesToolStripMenuItem.Click += new System.EventHandler(this.busesToolStripMenuItem_Click);
+            // 
+            // shiftToolStripMenuItem
+            // 
+            this.shiftToolStripMenuItem.Name = "shiftToolStripMenuItem";
+            this.shiftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.shiftToolStripMenuItem.Text = "Смены";
+            this.shiftToolStripMenuItem.Click += new System.EventHandler(this.shiftToolStripMenuItem_Click);
             // 
             // MainPage
             // 
@@ -85,6 +94,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tablesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem busesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shiftToolStripMenuItem;
     }
 }
 

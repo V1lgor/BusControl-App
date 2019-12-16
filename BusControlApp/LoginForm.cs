@@ -80,7 +80,7 @@ namespace BusControlApp
             // Проверяем значение user_role в этой строке и запоминаем эту роль.
             // Метод SqlDataReader.GetValue(i) возвращает значение i-го столбца строки, 
             // которая находится в данный момент в SqlDataReader
-            switch (userReader.GetValue(2))
+            switch (userReader.GetValue(3))
             {
                 case "admin":
                     this.userRole = 1;

@@ -17,8 +17,10 @@ namespace BusControlApp
         // Сохраняем подключение к БД в виде отдельного свойства, чтобы каждый раз не создавать подключение
         private SqlConnection connection;
 
+        public int userRole;
+
         // Конструктор формы просмотра автобусов
-        public BusesPage()
+        public BusesPage(int userRole)
         {
             // Создаем подключение к БД
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -45,6 +47,8 @@ namespace BusControlApp
             this.addBusBtn.Location = new Point(20, this.addBusBtn.Location.Y);
 
             Console.WriteLine("Создана форма BusesPage!");
+
+            this.userRole = userRole;
         }
 
 
@@ -93,6 +97,14 @@ namespace BusControlApp
             // (в данном случае еще и единственную) таблицу из датасета
             busesTable.DataSource = ds.Tables[0];
 
+            if (userRole == 2) 
+            {
+                Console.WriteLine("Скрываю столбцы таблицы");
+                busesTable.Columns["busId"].Visible = false;
+                busesTable.Columns["busVIN"].Visible = false;
+                busesTable.Columns["busGarageNumber"].Visible = false;
+                busesTable.Columns["busTankVolume"].Visible = false;
+            }
         }
 
         // Обработчик изменения размеров формы
@@ -137,6 +149,12 @@ namespace BusControlApp
 
             // Закрываем соединение
             connection.Close();
+        }
+
+        private void BusesPage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MainPage parent = (MainPage)this.MdiParent;
+            parent.busesPage = null;
         }
     }
 }

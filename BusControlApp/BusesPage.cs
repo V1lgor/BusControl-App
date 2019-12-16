@@ -14,22 +14,21 @@ namespace BusControlApp
 {
     public partial class BusesPage : Form
     {
+        // Сохраняем подключение к БД в виде отдельного свойства, чтобы каждый раз не создавать подключение
         private SqlConnection connection;
 
+        // Конструктор формы просмотра автобусов
         public BusesPage()
         {
-            
-
+            // Создаем подключение к БД
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             this.connection = new SqlConnection(connectionString);
 
             try
             {
-                connection.Open();
+                connection.Open();  // Открываем соединение
 
                 Console.WriteLine($"Подключение к базе данных {connection.Database} открыто!");
-
-
             }
             catch(SqlException e)
             {
@@ -40,91 +39,103 @@ namespace BusControlApp
                 connection.Close();
             }
 
-            InitializeComponent();
+            InitializeComponent();  // Отрисовываем форму
 
+            // Насильно выравниваем кнопку "Добавить автобус" по таблице автобусов
             this.addBusBtn.Location = new Point(20, this.addBusBtn.Location.Y);
 
             Console.WriteLine("Создана форма BusesPage!");
         }
 
 
-
+        // Событие загрузки формы
         private void BusesPage_Load(object sender, EventArgs e)
         {
-            // Устанавливаем размеры родительской формы
+            // Заставляем форму растянуться по контейнеру
             this.Dock = DockStyle.Fill;
-           // this.WindowState = FormWindowState.Maximized;
 
-            // Выполняем запрос к БД
-
+            // Строка запроса к БД
             string SQLQuery = "SELECT * FROM Bus";
 
+            // Создаем адаптер данных для нашего запроса
             SqlDataAdapter adapter = new SqlDataAdapter(SQLQuery, connection);
 
+            // Создаем датасет для нашей таблицы
             DataSet ds = new DataSet();
 
+            // Заполняем созданный датасет данными из адаптера
             adapter.Fill(ds);
 
-            this.dataGridView1.Location = new Point(20, this.dataGridView1.Location.Y);
+            // Задаем позицию и размеры таблицы автобусов
+            this.busesTable.Location = new Point(20, this.busesTable.Location.Y);
+            this.busesTable.Width = this.ClientRectangle.Width - 40;
 
-            this.dataGridView1.Width = this.ClientRectangle.Width - 40;
+            // Задаем для каждого столбца таблицы автобусов на форме название столбца-источника данных
+            busesTable.Columns["busId"].DataPropertyName = "bus_id";
+            busesTable.Columns["busVIN"].DataPropertyName = "bus_VIN";
+            busesTable.Columns["busManufacturer"].DataPropertyName = "bus_manuf_id";
+            busesTable.Columns["busModel"].DataPropertyName = "bus_model";
+            busesTable.Columns["busNumber"].DataPropertyName = "bus_number";
+            busesTable.Columns["busProductionYear"].DataPropertyName = "bus_production_year";
+            busesTable.Columns["busCompany"].DataPropertyName = "bus_company_id";
+            busesTable.Columns["busGarageNumber"].DataPropertyName = "bus_garage_number";
+            busesTable.Columns["busMileage"].DataPropertyName = "bus_mileage";
+            busesTable.Columns["busLicenseCategory"].DataPropertyName = "bus_license_category";
+            busesTable.Columns["busTankVolume"].DataPropertyName = "bus_tank_volume";
+            busesTable.Columns["busIsWrittenOff"].DataPropertyName = "bus_is_written_off";
 
-            dataGridView1.Columns["busId"].DataPropertyName = "bus_id";
-            dataGridView1.Columns["busVIN"].DataPropertyName = "bus_VIN";
-            dataGridView1.Columns["busManufacturer"].DataPropertyName = "bus_manuf_id";
-            dataGridView1.Columns["busModel"].DataPropertyName = "bus_model";
-            dataGridView1.Columns["busNumber"].DataPropertyName = "bus_number";
-            dataGridView1.Columns["busProductionYear"].DataPropertyName = "bus_production_year";
-            dataGridView1.Columns["busCompany"].DataPropertyName = "bus_company_id";
-            dataGridView1.Columns["busGarageNumber"].DataPropertyName = "bus_garage_number";
-            dataGridView1.Columns["busMileage"].DataPropertyName = "bus_mileage";
-            dataGridView1.Columns["busLicenseCategory"].DataPropertyName = "bus_license_category";
-            dataGridView1.Columns["busTankVolume"].DataPropertyName = "bus_tank_volume";
-            dataGridView1.Columns["busIsWrittenOff"].DataPropertyName = "bus_is_written_off";
-
-            dataGridView1.AutoResizeColumn(1);
-
-            foreach(DataGridViewColumn column in dataGridView1.Columns)
+            // Проходим по всем столбцам таблицы на форме
+            foreach(DataGridViewColumn column in busesTable.Columns)
             {
-                column.ReadOnly = true;
+                column.ReadOnly = true; // И задаем им свойство ReadOnly
             }
-
-            dataGridView1.DataSource = ds.Tables[0];
+            // Задаем источник данных для таблицы на форме как 0-ю 
+            // (в данном случае еще и единственную) таблицу из датасета
+            busesTable.DataSource = ds.Tables[0];
 
         }
 
+        // Обработчик изменения размеров формы
         private void BusesPage_Resize(object sender, EventArgs e)
         {
-            this.dataGridView1.Width = this.ClientRectangle.Width - 40;
+            // Каждый раз при изменении размеров формы растягиваем таблицу
+            this.busesTable.Width = this.ClientRectangle.Width - 40;
         }
 
+        // Обработка изменения значения в поле поиска автобуса по гос. номеру
         private void busNumberSearchField_TextChanged(object sender, EventArgs e)
         {
+            // Открываем соединение
             connection.Open();
-
             
-
+            // Запрос на поиск автобусов с похожим госномером. Параметр @number - значение в поле поиска
             string SqlQuery = "SELECT * FROM Bus WHERE bus_number LIKE @Number;";
 
+            // Создаем запрос
             SqlCommand command = new SqlCommand(SqlQuery, connection);
 
+            // Создаем параметр
             SqlParameter busNumber = new SqlParameter("@Number", SqlDbType.VarChar);
 
+            // Присваиваем ему значение
             busNumber.Value = this.busNumberSearchField.Text + '%';
 
-            command.CommandText = SqlQuery;
-            command.Connection = connection;
-
+            // Добавляем его к запросу
             command.Parameters.Add(busNumber);
 
+            // Создаем адаптер для этого запроса
             SqlDataAdapter adapter = new SqlDataAdapter(command);
 
+            // Датасет
             DataSet ds = new DataSet();
 
+            //Заполняем датасет данными из адаптера
             adapter.Fill(ds);
 
-            this.dataGridView1.DataSource = ds.Tables[0];
+            // Устанавливаем для таблицы автобусов источник
+            this.busesTable.DataSource = ds.Tables[0];
 
+            // Закрываем соединение
             connection.Close();
         }
     }

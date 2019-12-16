@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.busesTable = new System.Windows.Forms.DataGridView();
             this.busId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.busNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.busManufacturer = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,15 +44,15 @@
             this.addBusBtn = new System.Windows.Forms.Button();
             this.searchBusText = new System.Windows.Forms.Label();
             this.busNumberSearchField = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.busesTable)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // busesTable
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.busesTable.AllowUserToAddRows = false;
+            this.busesTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.busesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.busesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.busId,
             this.busNumber,
             this.busManufacturer,
@@ -65,10 +65,10 @@
             this.busLicenseCategory,
             this.busTankVolume,
             this.busIsWrittenOff});
-            this.dataGridView1.Location = new System.Drawing.Point(54, 84);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1130, 400);
-            this.dataGridView1.TabIndex = 0;
+            this.busesTable.Location = new System.Drawing.Point(54, 84);
+            this.busesTable.Name = "busesTable";
+            this.busesTable.Size = new System.Drawing.Size(1130, 400);
+            this.busesTable.TabIndex = 0;
             // 
             // busId
             // 
@@ -167,13 +167,13 @@
             this.Controls.Add(this.busNumberSearchField);
             this.Controls.Add(this.searchBusText);
             this.Controls.Add(this.addBusBtn);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.busesTable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "BusesPage";
             this.Text = "BusesPage";
             this.Load += new System.EventHandler(this.BusesPage_Load);
             this.Resize += new System.EventHandler(this.BusesPage_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.busesTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,7 +181,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView busesTable;
         private System.Windows.Forms.Button addBusBtn;
         private System.Windows.Forms.DataGridViewTextBoxColumn busId;
         private System.Windows.Forms.DataGridViewTextBoxColumn busNumber;

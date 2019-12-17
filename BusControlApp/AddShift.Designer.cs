@@ -116,6 +116,7 @@
             this.addShiftAcceptBtn.TabIndex = 8;
             this.addShiftAcceptBtn.Text = "Принять";
             this.addShiftAcceptBtn.UseVisualStyleBackColor = true;
+            this.addShiftAcceptBtn.Click += new System.EventHandler(this.AddShiftAcceptBtn_Click);
             // 
             // AddShift
             // 

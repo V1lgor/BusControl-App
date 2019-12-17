@@ -41,15 +41,9 @@ namespace BusControlApp
             InitializeComponent();
         }
 
-        private void ShiftPage_Load(object sender, EventArgs e)
+        private void LoadAllBuses()
         {
-            this.Dock = DockStyle.Fill;
-
-            this.shiftTable.Location = new Point(20, this.shiftTable.Location.Y);
-            this.shiftTable.Width = this.ClientRectangle.Width - 40;
-
-
-            string SQLQuery = 
+            string SQLQuery =
                 "SELECT WorkShift.shift_id, shift_date, route_number, " +
                 "shift_schedule_number, bus_number, " +
                 "shift_earnings, " +
@@ -81,6 +75,16 @@ namespace BusControlApp
             shiftTable.DataSource = ds.Tables[0];
         }
 
+        private void ShiftPage_Load(object sender, EventArgs e)
+        {
+            this.Dock = DockStyle.Fill;
+
+            this.shiftTable.Location = new Point(20, this.shiftTable.Location.Y);
+            this.shiftTable.Width = this.ClientRectangle.Width - 40;
+
+            LoadAllBuses();
+        }
+
         private void ShiftPage_FormClosed(object sender, FormClosedEventArgs e)
         {
             MainPage parent = (MainPage)this.MdiParent;
@@ -97,7 +101,24 @@ namespace BusControlApp
         {
             AddShift addShiftForm = new AddShift();
 
-            addShiftForm.Show();
+            addShiftForm.ShowDialog();
+
+            LoadAllBuses();
+        }
+        private void UpdateShiftButton_Click(object sender, EventArgs e)
+        {
+            int shiftId = (int)shiftTable.CurrentRow.Cells[0].Value;
+            UpdateShift updateShiftForm = new UpdateShift(shiftId);
+
+            updateShiftForm.ShowDialog();
+        }
+
+        private void ShiftTable_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.updateShiftButton.Enabled = true;
+            Console.WriteLine("Cell clicked");
+            int shiftId = (int)shiftTable.CurrentRow.Cells[0].Value;
+            Console.WriteLine(shiftId);
         }
     }
 }

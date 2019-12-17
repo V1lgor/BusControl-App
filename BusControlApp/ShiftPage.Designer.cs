@@ -37,6 +37,7 @@
             this.shiftEarnings = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.shiftDriver = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addShiftBtn = new System.Windows.Forms.Button();
+            this.updateShiftButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.shiftTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +57,8 @@
             this.shiftTable.Name = "shiftTable";
             this.shiftTable.Size = new System.Drawing.Size(744, 279);
             this.shiftTable.TabIndex = 0;
-            // 
+            this.shiftTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ShiftTable_CellClick);
+            
             // shiftId
             // 
             this.shiftId.HeaderText = "ID";
@@ -102,11 +104,23 @@
             this.addShiftBtn.UseVisualStyleBackColor = true;
             this.addShiftBtn.Click += new System.EventHandler(this.AddShiftBtn_Click);
             // 
+            // updateShiftButton
+            // 
+            this.updateShiftButton.Enabled = false;
+            this.updateShiftButton.Location = new System.Drawing.Point(204, 338);
+            this.updateShiftButton.Name = "updateShiftButton";
+            this.updateShiftButton.Size = new System.Drawing.Size(113, 23);
+            this.updateShiftButton.TabIndex = 2;
+            this.updateShiftButton.Text = "Обновить смену";
+            this.updateShiftButton.UseVisualStyleBackColor = true;
+            this.updateShiftButton.Click += new System.EventHandler(this.UpdateShiftButton_Click);
+            // 
             // ShiftPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(936, 381);
+            this.Controls.Add(this.updateShiftButton);
             this.Controls.Add(this.addShiftBtn);
             this.Controls.Add(this.shiftTable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -131,5 +145,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn shiftEarnings;
         private System.Windows.Forms.DataGridViewTextBoxColumn shiftDriver;
         private System.Windows.Forms.Button addShiftBtn;
+        private System.Windows.Forms.Button updateShiftButton;
     }
 }

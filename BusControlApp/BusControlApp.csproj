@@ -49,6 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddBus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddBus.Designer.cs">
+      <DependentUpon>AddBus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddRepairInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddRepairInfo.Designer.cs">
+      <DependentUpon>AddRepairInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddShift.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,12 +99,24 @@
     <Compile Include="ShiftPage.Designer.cs">
       <DependentUpon>ShiftPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="UpdateBus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateBus.Designer.cs">
+      <DependentUpon>UpdateBus.cs</DependentUpon>
+    </Compile>
     <Compile Include="UpdateShift.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UpdateShift.Designer.cs">
       <DependentUpon>UpdateShift.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddBus.resx">
+      <DependentUpon>AddBus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddRepairInfo.resx">
+      <DependentUpon>AddRepairInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddShift.resx">
       <DependentUpon>AddShift.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ShiftPage.resx">
       <DependentUpon>ShiftPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateBus.resx">
+      <DependentUpon>UpdateBus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateShift.resx">
       <DependentUpon>UpdateShift.cs</DependentUpon>

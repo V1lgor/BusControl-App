@@ -41,9 +41,13 @@
             this.busLicenseCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.busTankVolume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.busIsWrittenOff = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.addBusBtn = new System.Windows.Forms.Button();
+            this.addBusButton = new System.Windows.Forms.Button();
             this.searchBusText = new System.Windows.Forms.Label();
             this.busNumberSearchField = new System.Windows.Forms.TextBox();
+            this.updateBusButton = new System.Windows.Forms.Button();
+            this.writeOffBusButton = new System.Windows.Forms.Button();
+            this.addRepairButton = new System.Windows.Forms.Button();
+            this.showBusRepairsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.busesTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,6 +73,7 @@
             this.busesTable.Name = "busesTable";
             this.busesTable.Size = new System.Drawing.Size(1130, 400);
             this.busesTable.TabIndex = 0;
+            this.busesTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.busesTable_CellClick);
             // 
             // busId
             // 
@@ -132,14 +137,15 @@
             this.busIsWrittenOff.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.busIsWrittenOff.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // addBusBtn
+            // addBusButton
             // 
-            this.addBusBtn.Location = new System.Drawing.Point(54, 522);
-            this.addBusBtn.Name = "addBusBtn";
-            this.addBusBtn.Size = new System.Drawing.Size(176, 41);
-            this.addBusBtn.TabIndex = 1;
-            this.addBusBtn.Text = "Добавить автобус";
-            this.addBusBtn.UseVisualStyleBackColor = true;
+            this.addBusButton.Location = new System.Drawing.Point(54, 522);
+            this.addBusButton.Name = "addBusButton";
+            this.addBusButton.Size = new System.Drawing.Size(176, 41);
+            this.addBusButton.TabIndex = 1;
+            this.addBusButton.Text = "Добавить автобус";
+            this.addBusButton.UseVisualStyleBackColor = true;
+            this.addBusButton.Click += new System.EventHandler(this.addBusButton_Click);
             // 
             // searchBusText
             // 
@@ -158,15 +164,60 @@
             this.busNumberSearchField.TabIndex = 3;
             this.busNumberSearchField.TextChanged += new System.EventHandler(this.busNumberSearchField_TextChanged);
             // 
+            // updateBusButton
+            // 
+            this.updateBusButton.Location = new System.Drawing.Point(239, 522);
+            this.updateBusButton.Name = "updateBusButton";
+            this.updateBusButton.Size = new System.Drawing.Size(178, 41);
+            this.updateBusButton.TabIndex = 4;
+            this.updateBusButton.Text = "Отредактировать автобус";
+            this.updateBusButton.UseVisualStyleBackColor = true;
+            this.updateBusButton.Click += new System.EventHandler(this.updateBusButton_Click);
+            // 
+            // writeOffBusButton
+            // 
+            this.writeOffBusButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.writeOffBusButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.writeOffBusButton.Location = new System.Drawing.Point(994, 522);
+            this.writeOffBusButton.Name = "writeOffBusButton";
+            this.writeOffBusButton.Size = new System.Drawing.Size(190, 41);
+            this.writeOffBusButton.TabIndex = 5;
+            this.writeOffBusButton.Text = "Списать автобус";
+            this.writeOffBusButton.UseVisualStyleBackColor = false;
+            this.writeOffBusButton.Click += new System.EventHandler(this.writeOffBusButton_Click);
+            // 
+            // addRepairButton
+            // 
+            this.addRepairButton.Location = new System.Drawing.Point(438, 522);
+            this.addRepairButton.Name = "addRepairButton";
+            this.addRepairButton.Size = new System.Drawing.Size(178, 41);
+            this.addRepairButton.TabIndex = 6;
+            this.addRepairButton.Text = "Добавить информацию о ремонте";
+            this.addRepairButton.UseVisualStyleBackColor = true;
+            this.addRepairButton.Click += new System.EventHandler(this.addRepairButton_Click);
+            // 
+            // showBusRepairsButton
+            // 
+            this.showBusRepairsButton.Location = new System.Drawing.Point(634, 522);
+            this.showBusRepairsButton.Name = "showBusRepairsButton";
+            this.showBusRepairsButton.Size = new System.Drawing.Size(188, 41);
+            this.showBusRepairsButton.TabIndex = 7;
+            this.showBusRepairsButton.Text = "Просмотреть информацию о ремонтах";
+            this.showBusRepairsButton.UseVisualStyleBackColor = true;
+            // 
             // BusesPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1232, 613);
             this.ControlBox = false;
+            this.Controls.Add(this.showBusRepairsButton);
+            this.Controls.Add(this.addRepairButton);
+            this.Controls.Add(this.writeOffBusButton);
+            this.Controls.Add(this.updateBusButton);
             this.Controls.Add(this.busNumberSearchField);
             this.Controls.Add(this.searchBusText);
-            this.Controls.Add(this.addBusBtn);
+            this.Controls.Add(this.addBusButton);
             this.Controls.Add(this.busesTable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "BusesPage";
@@ -183,7 +234,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView busesTable;
-        private System.Windows.Forms.Button addBusBtn;
+        private System.Windows.Forms.Button addBusButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn busId;
         private System.Windows.Forms.DataGridViewTextBoxColumn busNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn busManufacturer;
@@ -198,5 +249,9 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn busIsWrittenOff;
         private System.Windows.Forms.Label searchBusText;
         private System.Windows.Forms.TextBox busNumberSearchField;
+        private System.Windows.Forms.Button updateBusButton;
+        private System.Windows.Forms.Button writeOffBusButton;
+        private System.Windows.Forms.Button addRepairButton;
+        private System.Windows.Forms.Button showBusRepairsButton;
     }
 }

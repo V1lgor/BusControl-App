@@ -15,48 +15,31 @@ namespace BusControlApp
     public partial class BusesPage : Form
     {
         // Сохраняем подключение к БД в виде отдельного свойства, чтобы каждый раз не создавать подключение
-        private SqlConnection connection;
 
         public int userRole;
 
         // Конструктор формы просмотра автобусов
         public BusesPage(int userRole)
         {
-            // Создаем подключение к БД
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            this.connection = new SqlConnection(connectionString);
-
-            try
-            {
-                connection.Open();  // Открываем соединение
-
-                Console.WriteLine($"Подключение к базе данных {connection.Database} открыто!");
-            }
-            catch(SqlException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                connection.Close();
-            }
-
             InitializeComponent();  // Отрисовываем форму
 
             // Насильно выравниваем кнопку "Добавить автобус" по таблице автобусов
-            this.addBusBtn.Location = new Point(20, this.addBusBtn.Location.Y);
+            this.addBusButton.Location = new Point(20, this.addBusButton.Location.Y);
 
             Console.WriteLine("Создана форма BusesPage!");
 
             this.userRole = userRole;
+
+            this.writeOffBusButton.Enabled = false;
+            this.updateBusButton.Enabled = false;
+            this.showBusRepairsButton.Enabled = false;
+            this.addRepairButton.Enabled = false;
         }
 
-
-        // Событие загрузки формы
-        private void BusesPage_Load(object sender, EventArgs e)
+        private void LoadAllBuses()
         {
-            // Заставляем форму растянуться по контейнеру
-            this.Dock = DockStyle.Fill;
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            connection.Open();
 
             // Строка запроса к БД
             string SQLQuery = "SELECT * FROM Bus";
@@ -89,7 +72,7 @@ namespace BusControlApp
             busesTable.Columns["busIsWrittenOff"].DataPropertyName = "bus_is_written_off";
 
             // Проходим по всем столбцам таблицы на форме
-            foreach(DataGridViewColumn column in busesTable.Columns)
+            foreach (DataGridViewColumn column in busesTable.Columns)
             {
                 column.ReadOnly = true; // И задаем им свойство ReadOnly
             }
@@ -97,14 +80,34 @@ namespace BusControlApp
             // (в данном случае еще и единственную) таблицу из датасета
             busesTable.DataSource = ds.Tables[0];
 
-            if (userRole == 2) 
+            if (userRole == 2)
             {
-                Console.WriteLine("Скрываю столбцы таблицы");
                 busesTable.Columns["busId"].Visible = false;
                 busesTable.Columns["busVIN"].Visible = false;
                 busesTable.Columns["busGarageNumber"].Visible = false;
                 busesTable.Columns["busTankVolume"].Visible = false;
+                busesTable.Columns["busIsWrittenOff"].Visible = false;
+
+                (busesTable.DataSource as DataTable).DefaultView.RowFilter = "[bus_is_written_off] = 'False'";
+
+                this.addBusButton.Visible = false;
+                this.updateBusButton.Visible = false;
+                this.addRepairButton.Visible = false;
+                this.showBusRepairsButton.Visible = false;
+                this.writeOffBusButton.Visible = false;
             }
+
+            connection.Close();
+        }
+
+
+        // Событие загрузки формы
+        private void BusesPage_Load(object sender, EventArgs e)
+        {
+            // Заставляем форму растянуться по контейнеру
+            this.Dock = DockStyle.Fill;
+
+            LoadAllBuses();
         }
 
         // Обработчик изменения размеров формы
@@ -117,9 +120,9 @@ namespace BusControlApp
         // Обработка изменения значения в поле поиска автобуса по гос. номеру
         private void busNumberSearchField_TextChanged(object sender, EventArgs e)
         {
-            // Открываем соединение
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
             connection.Open();
-            
+
             // Запрос на поиск автобусов с похожим госномером. Параметр @number - значение в поле поиска
             string SqlQuery = "SELECT * FROM Bus WHERE bus_number LIKE @Number;";
 
@@ -146,6 +149,8 @@ namespace BusControlApp
 
             // Устанавливаем для таблицы автобусов источник
             this.busesTable.DataSource = ds.Tables[0];
+            if (userRole == 2)
+                (busesTable.DataSource as DataTable).DefaultView.RowFilter = "[bus_is_written_off] = 'False'";
 
             // Закрываем соединение
             connection.Close();
@@ -155,6 +160,62 @@ namespace BusControlApp
         {
             MainPage parent = (MainPage)this.MdiParent;
             parent.busesPage = null;
+        }
+
+        private void addBusButton_Click(object sender, EventArgs e)
+        {
+            AddBus addBusForm = new AddBus();
+            addBusForm.ShowDialog();
+            LoadAllBuses();
+        }
+
+        private void writeOffBusButton_Click(object sender, EventArgs e)
+        {
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+            connection.Open();
+
+            int busId = (int) busesTable.CurrentRow.Cells[0].Value; // Получаем ID автобуса
+
+            string writeOffQuery = "UPDATE BUS SET bus_is_written_off = 1 WHERE bus_id = @busId";
+
+            SqlCommand command = new SqlCommand(writeOffQuery, connection);
+
+            command.Parameters.AddWithValue("@busId", busId);
+
+            command.ExecuteNonQuery();
+
+            connection.Close();
+
+            LoadAllBuses();
+        }
+
+        private void busesTable_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            this.writeOffBusButton.Enabled = true;
+            this.updateBusButton.Enabled = true;
+            this.addRepairButton.Enabled = true;
+            this.showBusRepairsButton.Enabled = true;
+        }
+
+        private void updateBusButton_Click(object sender, EventArgs e)
+        {
+            int busId = (int)busesTable.CurrentRow.Cells[0].Value;
+
+            UpdateBus updateBusForm = new UpdateBus(busId);
+
+            updateBusForm.ShowDialog();
+
+            LoadAllBuses();
+        }
+
+        private void addRepairButton_Click(object sender, EventArgs e)
+        {
+            int busId = (int)busesTable.CurrentRow.Cells[0].Value;
+
+            AddRepairInfo addRepairForm = new AddRepairInfo(busId);
+
+            addRepairForm.ShowDialog();
         }
     }
 }

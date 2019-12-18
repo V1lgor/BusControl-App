@@ -16,8 +16,8 @@ namespace BusControlApp
 {
     public partial class UpdateShift : Form
     {
-        private SqlConnection connection;
         private int shiftId;
+
         public UpdateShift(int shiftId)
         {
             this.shiftId = shiftId;
@@ -26,7 +26,7 @@ namespace BusControlApp
 
         private void LoadAllRoutes()
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -47,10 +47,12 @@ namespace BusControlApp
 
             routeInputField.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             routeInputField.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+            connection.Close();
         }
         private void LoadAllBuses()
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -72,10 +74,12 @@ namespace BusControlApp
             busInputField.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             busInputField.AutoCompleteSource = AutoCompleteSource.ListItems;
 
+            connection.Close();
+
         }
         private void LoadAllDrivers()
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -97,12 +101,12 @@ namespace BusControlApp
 
             driverInputField.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             driverInputField.AutoCompleteSource = AutoCompleteSource.ListItems;
-
+            connection.Close();
 
         }
         private void LoadScheduleNumber(int scheduleNumber)
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -130,11 +134,13 @@ namespace BusControlApp
 
             scheduleInputField.DataSource = ds.Tables[0];
 
+            connection.Close();
+
         }
 
         private void GetLayUp()
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -157,11 +163,13 @@ namespace BusControlApp
 
                 this.layUpInfo.Text = layUpText;
             }
+
+            connection.Close();
         }
 
         private void SetShiftInformation()
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -220,12 +228,13 @@ namespace BusControlApp
 
             driverInputField.SelectedValue = driverId;
 
+            connection.Close();
 
         }
 
         private void GetLinearControl()
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -248,6 +257,7 @@ namespace BusControlApp
                 this.linearControlInputField.Text = (string)reader.GetValue(0);
             }
 
+            connection.Close();
 
         }
 
@@ -272,6 +282,10 @@ namespace BusControlApp
 
         private void UpdateLayUp(int shiftId)
         {
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+            connection.Open();
+
             string updateLayUpQuery =
                     "UPDATE BusLayUp SET lay_up_info = @layUpText " +
                     "WHERE lay_up_shift_id = @shiftId";
@@ -292,10 +306,16 @@ namespace BusControlApp
             command.Parameters.Add(layUpTextParam);
 
             command.ExecuteNonQuery();
+
+            connection.Close();
         }
 
         private void InsertLayUp(int shiftId)
         {
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+            connection.Open();
+
             string insertLayUpQuery =
                     "INSERT INTO BusLayUp(lay_up_shift_id, lay_up_info)" +
                     "VALUES(@shiftId, @layUpText)";
@@ -316,10 +336,16 @@ namespace BusControlApp
             command.Parameters.Add(layUpTextParam);
 
             command.ExecuteNonQuery();
+
+            connection.Close();
         }
 
         private void UpdateLinearControl()
         {
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+            connection.Open();
+
             string updateControlQuery =
                     "UPDATE ControlInfo SET control_info = @controlText " +
                     "WHERE control_shift_id = @shiftId";
@@ -340,10 +366,16 @@ namespace BusControlApp
             command.Parameters.Add(shiftIdParam);
 
             command.ExecuteNonQuery();
+
+            connection.Close();
         }
 
         private void InsertLinearControl()
         {
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+            connection.Open();
+
             string updateControlQuery =
                     "INSERT INTO ControlInfo(control_shift_id, control_info)" +
                     "VALUES (@shiftId, @controlInfo)";
@@ -364,11 +396,13 @@ namespace BusControlApp
             command.Parameters.Add(shiftIdParam);
 
             command.ExecuteNonQuery();
+
+            connection.Close();
         }
 
         private void SaveUpdatedShiftButton_Click(object sender, EventArgs e)
         {
-            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
             connection.Open();
 
@@ -420,7 +454,7 @@ namespace BusControlApp
                 reader.Close();
                 InsertLinearControl();
             }
-
+            connection.Close();
             this.Close();
         }
     }
